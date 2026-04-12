@@ -290,18 +290,28 @@ tailwind.config = {
   .corner-br { bottom: 0; right: 0; border-bottom: 1px solid; border-right: 1px solid; border-color: inherit; }
 
   /* ─── Language Toggle Button ─── */
-  .lang-btn {
+  /* ─── Language Toggle Button ─── */
+  #langWrapper {
     position: fixed;
-    bottom: max(24px, env(safe-area-inset-bottom, 24px));
-    right: max(18px, env(safe-area-inset-right, 18px));
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 0;
     z-index: 10000;
+    pointer-events: none;
+  }
+  .lang-btn {
+    position: absolute;
+    bottom: max(20px, env(safe-area-inset-bottom, 20px));
+    right: max(16px, env(safe-area-inset-right, 16px));
+    pointer-events: all;
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 20px;
+    padding: 11px 18px;
     border-radius: 50px;
-    border: 1px solid rgba(200,169,81,0.4);
-    background: rgba(11,20,38,0.92);
+    border: 1px solid rgba(200,169,81,0.45);
+    background: rgba(6,13,26,0.95);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     color: #C8A951;
@@ -309,23 +319,26 @@ tailwind.config = {
     font-size: 12px;
     letter-spacing: 1.5px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
     text-transform: uppercase;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,169,81,0.1);
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     min-height: 48px;
+    min-width: 48px;
+    transition: background 0.25s, border-color 0.25s, transform 0.15s;
+    will-change: transform;
   }
   .lang-btn:hover {
-    background: rgba(200,169,81,0.15);
+    background: rgba(200,169,81,0.12);
     border-color: rgba(200,169,81,0.7);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 32px rgba(200,169,81,0.2);
   }
-  .lang-btn:active {
-    transform: scale(0.96);
+  .lang-btn:active { transform: scale(0.95); }
+  .lang-btn svg {
+    width: 15px; height: 15px;
+    stroke: #C8A951; fill: none;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    flex-shrink: 0;
   }
-  .lang-btn svg { width:15px; height:15px; stroke:#C8A951; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
 
   /* ─── RTL Arabic Mode ─── */
   html[lang="ar"] body { font-family: 'Tajawal', sans-serif; direction: rtl; }
@@ -334,8 +347,10 @@ tailwind.config = {
   html[lang="ar"] .timeline-item { padding-left: 0; padding-right: 32px; }
   html[lang="ar"] .timeline-item::before { left: auto; right: 7px; }
   html[lang="ar"] .timeline-dot { left: auto; right: 0; }
-  html[lang="ar"] .lang-btn { right: auto; left: max(18px, env(safe-area-inset-left, 18px)); }
-
+  html[lang="ar"] .lang-btn {
+    right: auto;
+    left: max(16px, env(safe-area-inset-left, 16px));
+  }
   /* ─── Services Section ─── */
   .services-section { position: relative; padding: 48px 24px; max-width: 512px; margin: 0 auto; }
 </style>
@@ -344,10 +359,12 @@ tailwind.config = {
 <body class="noise">
 
 <!-- ─── Language Toggle Button ─── -->
+<div id="langWrapper">
 <button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Toggle Language">
   <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
   <span id="langLabel">العربية</span>
 </button>
+</div>
 
 <!-- ═══════════════════════════════════════════ -->
 <!--                HERO SECTION                -->
@@ -568,7 +585,21 @@ tailwind.config = {
   });
   document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
-  // ─── Language Toggle — Full Bilingual System ───
+  // ─── Pin lang button to visual viewport (survives pinch-zoom) ───
+  const wrapper = document.getElementById('langWrapper');
+  function pinBtn() {
+    if (!window.visualViewport) return;
+    const vv = window.visualViewport;
+    wrapper.style.transform =
+      `translate(${vv.offsetLeft}px, ${vv.offsetTop}px)`;
+    wrapper.style.width  = vv.width  + 'px';
+    wrapper.style.height = vv.height + 'px';
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', pinBtn);
+    window.visualViewport.addEventListener('scroll', pinBtn);
+    pinBtn();
+  }
   const content = {
     en: {
       dir: 'ltr', lang: 'en',
