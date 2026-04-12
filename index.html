@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Bandar Ahmed Alsulami — Senior HR Professional</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -292,32 +292,40 @@ tailwind.config = {
   /* ─── Language Toggle Button ─── */
   .lang-btn {
     position: fixed;
-    top: 18px;
-    right: 18px;
+    bottom: max(24px, env(safe-area-inset-bottom, 24px));
+    right: max(18px, env(safe-area-inset-right, 18px));
     z-index: 10000;
     display: flex;
     align-items: center;
-    gap: 7px;
-    padding: 9px 16px;
+    gap: 8px;
+    padding: 12px 20px;
     border-radius: 50px;
-    border: 1px solid rgba(200,169,81,0.3);
-    background: rgba(11,20,38,0.85);
-    backdrop-filter: blur(12px);
+    border: 1px solid rgba(200,169,81,0.4);
+    background: rgba(11,20,38,0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     color: #C8A951;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 1.5px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
     text-transform: uppercase;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 48px;
   }
   .lang-btn:hover {
-    background: rgba(200,169,81,0.1);
-    border-color: rgba(200,169,81,0.6);
+    background: rgba(200,169,81,0.15);
+    border-color: rgba(200,169,81,0.7);
     transform: translateY(-1px);
-    box-shadow: 0 6px 24px rgba(200,169,81,0.15);
+    box-shadow: 0 8px 32px rgba(200,169,81,0.2);
   }
-  .lang-btn svg { width:14px; height:14px; stroke:#C8A951; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .lang-btn:active {
+    transform: scale(0.96);
+  }
+  .lang-btn svg { width:15px; height:15px; stroke:#C8A951; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
 
   /* ─── RTL Arabic Mode ─── */
   html[lang="ar"] body { font-family: 'Tajawal', sans-serif; direction: rtl; }
@@ -326,7 +334,7 @@ tailwind.config = {
   html[lang="ar"] .timeline-item { padding-left: 0; padding-right: 32px; }
   html[lang="ar"] .timeline-item::before { left: auto; right: 7px; }
   html[lang="ar"] .timeline-dot { left: auto; right: 0; }
-  html[lang="ar"] .lang-btn { right: auto; left: 18px; }
+  html[lang="ar"] .lang-btn { right: auto; left: max(18px, env(safe-area-inset-left, 18px)); }
 
   /* ─── Services Section ─── */
   .services-section { position: relative; padding: 48px 24px; max-width: 512px; margin: 0 auto; }
