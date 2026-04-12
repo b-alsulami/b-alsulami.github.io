@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bandar Ahmed Alsulami — Senior HR Professional</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
@@ -288,10 +288,58 @@ tailwind.config = {
   }
   .corner-tl { top: 0; left: 0; border-top: 1px solid; border-left: 1px solid; border-color: inherit; }
   .corner-br { bottom: 0; right: 0; border-bottom: 1px solid; border-right: 1px solid; border-color: inherit; }
+
+  /* ─── Language Toggle Button ─── */
+  .lang-btn {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border-radius: 50px;
+    border: 1px solid rgba(200,169,81,0.3);
+    background: rgba(11,20,38,0.85);
+    backdrop-filter: blur(12px);
+    color: #C8A951;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+    text-transform: uppercase;
+  }
+  .lang-btn:hover {
+    background: rgba(200,169,81,0.1);
+    border-color: rgba(200,169,81,0.6);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(200,169,81,0.15);
+  }
+  .lang-btn svg { width:14px; height:14px; stroke:#C8A951; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+  /* ─── RTL Arabic Mode ─── */
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; direction: rtl; }
+  html[lang="ar"] .section-label { padding-left: 0; padding-right: 28px; }
+  html[lang="ar"] .section-label::before { left: auto; right: 0; }
+  html[lang="ar"] .timeline-item { padding-left: 0; padding-right: 32px; }
+  html[lang="ar"] .timeline-item::before { left: auto; right: 7px; }
+  html[lang="ar"] .timeline-dot { left: auto; right: 0; }
+  html[lang="ar"] .lang-btn { right: auto; left: 18px; }
+
+  /* ─── Services Section ─── */
+  .services-section { position: relative; padding: 48px 24px; max-width: 512px; margin: 0 auto; }
 </style>
 </head>
 
 <body class="noise">
+
+<!-- ─── Language Toggle Button ─── -->
+<button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Toggle Language">
+  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+  <span id="langLabel">العربية</span>
+</button>
 
 <!-- ═══════════════════════════════════════════ -->
 <!--                HERO SECTION                -->
@@ -308,7 +356,8 @@ tailwind.config = {
   </div>
 
   <!-- Name -->
-  <h1 class="reveal reveal-d2 font-display text-[clamp(2rem,8vw,3.2rem)] text-white text-center leading-[1.15] tracking-tight">
+  <h1 class="reveal reveal-d2 font-display text-[clamp(2rem,8vw,3.2rem)] text-white text-center leading-[1.15] tracking-tight"
+      data-en="Bandar Ahmed Alsulami" data-ar="بندر أحمد السلمي">
     Bandar Ahmed Alsulami
   </h1>
 
@@ -316,7 +365,8 @@ tailwind.config = {
   <div class="w-16 h-[1px] bg-gradient-to-r from-transparent via-[#C8A951] to-transparent my-5 line-reveal"></div>
 
   <!-- Title -->
-  <p class="reveal reveal-d3 font-body text-[clamp(0.85rem,3.2vw,1.05rem)] text-[#9BA4B5] text-center max-w-xs leading-relaxed font-light">
+  <p class="reveal reveal-d3 font-body text-[clamp(0.85rem,3.2vw,1.05rem)] text-[#9BA4B5] text-center max-w-xs leading-relaxed font-light"
+     data-en="Senior Payroll, Compensation<br>&amp; Benefits Officer" data-ar="مسؤول أول للرواتب<br>والتعويضات والمزايا">
     Senior Payroll, Compensation<br>&amp; Benefits Officer
   </p>
 
@@ -483,7 +533,7 @@ tailwind.config = {
       </a>
 
       <!-- Email -->
-      <a href="mailto:alsulami-bandar@outlook.com" class="btn-primary btn-outline group">
+      <a href="/cdn-cgi/l/email-protection#3f5e534c4a535e5256125d5e515b5e4d7f504a4b53505054115c5052" class="btn-primary btn-outline group">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M22 7l-10 6L2 7"/></svg>
         Email Me
       </a>
@@ -498,7 +548,7 @@ tailwind.config = {
 </section>
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Scroll-triggered reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -507,10 +557,138 @@ tailwind.config = {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
-
+  });
   document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
-</script>
 
+  // ─── Language Toggle — Full Bilingual System ───
+  const content = {
+    en: {
+      dir: 'ltr', lang: 'en',
+      btnLabel: 'العربية',
+      title: 'Bandar Ahmed Alsulami — Senior HR Professional',
+      credential1: 'CIPD Certified',
+      credential2: 'BBA, HRM',
+      scrollText: 'Scroll',
+      aboutLabel: 'About Me',
+      aboutBody: `I am a CIPD-certified HR professional with proven expertise in managing end-to-end payroll processing for <span class="text-white font-medium">1,200+ employees</span>, driving ERP/HRIS system integrations (<span class="text-[#C8A951] font-normal">SAP SuccessFactors</span>, <span class="text-[#C8A951] font-normal">MenaITech</span>), and maintaining strict compliance with the Wage Protection System (<span class="text-white font-normal">Mudad/WPS</span>) and <span class="text-white font-normal">GOSI</span>. I leverage data-driven decision-making using <span class="text-[#C8A951] font-normal">Power BI</span> and <span class="text-[#C8A951] font-normal">Advanced Excel</span>.`,
+      competenciesLabel: 'Core Competencies',
+      comp: [
+        { title: 'Payroll Operations &amp; ERP Integration', desc: 'End-to-end payroll cycles, SAP SuccessFactors, MenaITech, financial postings &amp; reconciliation' },
+        { title: 'Compensation, Benefits &amp; Total Rewards', desc: 'Salary benchmarking, bonus calculations, benefits administration &amp; insurance programs' },
+        { title: 'Job Evaluation (Korn Ferry Hay Method)', desc: 'Grading criteria, position benchmarking &amp; internal equity analysis across grade structures' },
+        { title: 'HR Analytics &amp; Reporting', desc: 'Power BI dashboards, cost reports, variance analysis &amp; data-driven workforce insights' },
+      ],
+      highlightsLabel: 'Career Highlights',
+      highlights: [
+        { badge: 'Current Role', body: `Serving as <span class="text-white font-medium">Payroll, Compensation &amp; Benefits Senior Officer</span> at <span class="text-white font-medium">Bin-Shihon Group</span>, overseeing payroll operations for 1,200+ employees.` },
+        { badge: 'Previous Impact', body: `Led payroll processing for over <span class="text-white font-medium">1,000 employees</span> at <span class="text-white font-medium">Alesayi Motors</span>, achieving full Mudad/WPS compliance throughout tenure.` },
+        { badge: 'Recognition', body: `Awarded <span class="text-white font-medium">3rd Place</span> in the <span class="text-white font-medium">Future Researcher Competition</span> at King Abdulaziz University.` },
+      ],
+      downloadBtn: 'Download Full CV',
+      linkedinBtn: 'Connect on LinkedIn',
+      emailBtn: 'Email Me',
+      location: 'Jeddah, Saudi Arabia',
+    },
+    ar: {
+      dir: 'rtl', lang: 'ar',
+      btnLabel: 'English',
+      title: 'بندر أحمد السلمي — متخصص موارد بشرية أول',
+      credential1: 'شهادة CIPD',
+      credential2: 'بكالوريوس إدارة أعمال',
+      scrollText: 'تمرير',
+      aboutLabel: 'نبذة عني',
+      aboutBody: `أنا متخصص في الموارد البشرية حاصل على شهادة CIPD، أمتلك خبرة موثّقة في إدارة دورة الرواتب الكاملة لـ <span class="text-white font-medium">أكثر من ١٢٠٠ موظف</span>، وقيادة عمليات دمج أنظمة الموارد البشرية (<span class="text-[#C8A951] font-normal">SAP SuccessFactors</span>، <span class="text-[#C8A951] font-normal">MenaITech</span>)، مع الحرص على الامتثال التام لنظام حماية الأجور (<span class="text-white font-normal">مُدد/WPS</span>) وأنظمة <span class="text-white font-normal">التأمينات الاجتماعية</span>. أعتمد في عملي على اتخاذ قرارات مبنية على البيانات بواسطة <span class="text-[#C8A951] font-normal">Power BI</span> و<span class="text-[#C8A951] font-normal">Excel المتقدم</span>.`,
+      competenciesLabel: 'الكفاءات الأساسية',
+      comp: [
+        { title: 'إدارة الرواتب وتكامل أنظمة ERP', desc: 'دورة رواتب متكاملة، SAP SuccessFactors، MenaITech، التسويات والترحيل المالي' },
+        { title: 'التعويضات والمزايا والمكافآت الإجمالية', desc: 'المقارنة السوقية للرواتب، احتساب المكافآت، إدارة المزايا وبرامج التأمين' },
+        { title: 'تقييم الوظائف (منهجية Korn Ferry Hay)', desc: 'معايير التدرج الوظيفي، مرجعية المناصب وتحليل العدالة الداخلية عبر الهياكل' },
+        { title: 'تحليلات الموارد البشرية والتقارير', desc: 'لوحات بيانات Power BI، تقارير التكاليف، تحليل الفجوات ورؤى القوى العاملة' },
+      ],
+      highlightsLabel: 'أبرز المسيرة المهنية',
+      highlights: [
+        { badge: 'الدور الحالي', body: `يشغل حالياً منصب <span class="text-white font-medium">مسؤول أول للرواتب والتعويضات والمزايا</span> في <span class="text-white font-medium">مجموعة بن شيهون</span>، ويشرف على عمليات الرواتب لأكثر من ١٢٠٠ موظف.` },
+        { badge: 'الأثر السابق', body: `قاد عمليات الرواتب لأكثر من <span class="text-white font-medium">١٠٠٠ موظف</span> في <span class="text-white font-medium">شركة العيسائي للسيارات</span>، محققاً الامتثال الكامل لنظام مُدد طوال فترة عمله.` },
+        { badge: 'التقدير والجوائز', body: `حصل على <span class="text-white font-medium">المركز الثالث</span> في <span class="text-white font-medium">مسابقة الباحث المستقبلي</span> في جامعة الملك عبدالعزيز.` },
+      ],
+      downloadBtn: 'تحميل السيرة الذاتية',
+      linkedinBtn: 'تواصل عبر LinkedIn',
+      emailBtn: 'راسلني',
+      location: 'جدة، المملكة العربية السعودية',
+    }
+  };
+
+  let currentLang = 'en';
+
+  function toggleLang() {
+    currentLang = currentLang === 'en' ? 'ar' : 'en';
+    const t = content[currentLang];
+    const html = document.documentElement;
+
+    // Direction & lang
+    html.setAttribute('lang', t.lang);
+    html.setAttribute('dir', t.dir);
+    document.title = t.title;
+    document.getElementById('langLabel').textContent = t.btnLabel;
+
+    // Hero: name & title already have data-en/data-ar
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const val = el.getAttribute('data-' + currentLang);
+      if (val) el.innerHTML = val;
+    });
+
+    // Credentials pill
+    const creds = document.querySelectorAll('.font-mono[class*="tracking-[2"]');
+    if (creds[0]) creds[0].textContent = t.credential1;
+    if (creds[1]) creds[1].textContent = t.credential2;
+
+    // Scroll indicator
+    const scrollSpan = document.querySelector('.reveal-d6 .font-mono');
+    if (scrollSpan) scrollSpan.textContent = t.scrollText;
+
+    // About section
+    const labels = document.querySelectorAll('.section-label');
+    if (labels[0]) labels[0].textContent = t.aboutLabel;
+    const aboutP = document.querySelector('.relative.mt-5 p');
+    if (aboutP) aboutP.innerHTML = t.aboutBody;
+
+    // Core Competencies
+    if (labels[1]) labels[1].textContent = t.competenciesLabel;
+    const compCards = document.querySelectorAll('.comp-card');
+    compCards.forEach((card, i) => {
+      if (!t.comp[i]) return;
+      const h3 = card.querySelector('h3');
+      const p = card.querySelector('p');
+      if (h3) h3.innerHTML = t.comp[i].title;
+      if (p) p.innerHTML = t.comp[i].desc;
+    });
+
+    // Career Highlights
+    if (labels[2]) labels[2].textContent = t.highlightsLabel;
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach((item, i) => {
+      if (!t.highlights[i]) return;
+      const badge = item.querySelector('.font-mono');
+      const body = item.querySelector('p');
+      if (badge) badge.textContent = t.highlights[i].badge;
+      if (body) body.innerHTML = t.highlights[i].body;
+    });
+
+    // CTA Buttons — replace last text node
+    const btns = document.querySelectorAll('.btn-primary');
+    const btnTexts = [t.downloadBtn, t.linkedinBtn, t.emailBtn];
+    btns.forEach((btn, i) => {
+      if (!btnTexts[i]) return;
+      // find last text node
+      const nodes = [...btn.childNodes];
+      const textNode = nodes.reverse().find(n => n.nodeType === 3 && n.textContent.trim());
+      if (textNode) textNode.textContent = ' ' + btnTexts[i];
+    });
+
+    // Footer location
+    const footerSpan = document.querySelector('.mt-14 .font-mono');
+    if (footerSpan) footerSpan.textContent = t.location;
+  }
+</script>
 </body>
 </html>
