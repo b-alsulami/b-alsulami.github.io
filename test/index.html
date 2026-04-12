@@ -290,54 +290,80 @@ tailwind.config = {
   .corner-br { bottom: 0; right: 0; border-bottom: 1px solid; border-right: 1px solid; border-color: inherit; }
 
   /* ─── Language Toggle Button ─── */
-  /* ─── Language Toggle Button ─── */
+  /* ─── Language Toggle — Side Tab ─── */
   #langWrapper {
     position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 0;
-    z-index: 10000;
+    top: 0; right: 0;
+    width: 0; height: 100%;
+    z-index: 2147483647;
     pointer-events: none;
+    overflow: visible;
   }
+
   .lang-btn {
     position: absolute;
-    bottom: max(20px, env(safe-area-inset-bottom, 20px));
-    right: max(16px, env(safe-area-inset-right, 16px));
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
     pointer-events: all;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    padding: 11px 18px;
-    border-radius: 50px;
-    border: 1px solid rgba(200,169,81,0.45);
-    background: rgba(6,13,26,0.95);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    justify-content: center;
+    gap: 6px;
+    padding: 14px 8px;
+    border-radius: 12px 0 0 12px;
+    border: 1px solid rgba(200,169,81,0.5);
+    border-right: none;
+    background: rgba(6,13,26,0.97);
     color: #C8A951;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
+    font-size: 10px;
     letter-spacing: 1.5px;
     cursor: pointer;
     text-transform: uppercase;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,169,81,0.1);
+    box-shadow: -4px 0 20px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,169,81,0.08);
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-    min-height: 48px;
-    min-width: 48px;
-    transition: background 0.25s, border-color 0.25s, transform 0.15s;
-    will-change: transform;
+    min-width: 36px;
+    min-height: 80px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transition: background 0.2s, padding 0.2s, box-shadow 0.2s;
+    user-select: none;
   }
-  .lang-btn:hover {
-    background: rgba(200,169,81,0.12);
-    border-color: rgba(200,169,81,0.7);
+
+  .lang-btn:active {
+    background: rgba(200,169,81,0.15);
+    padding-right: 4px;
   }
-  .lang-btn:active { transform: scale(0.95); }
+
   .lang-btn svg {
-    width: 15px; height: 15px;
+    width: 16px; height: 16px;
     stroke: #C8A951; fill: none;
     stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    writing-mode: horizontal-tb;
     flex-shrink: 0;
+    margin-bottom: 2px;
+  }
+
+  .lang-btn #langLabel {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  /* عند RTL ينتقل للجانب الأيسر */
+  html[lang="ar"] #langWrapper {
+    right: auto; left: 0;
+  }
+  html[lang="ar"] .lang-btn {
+    right: auto; left: 0;
+    border-radius: 0 12px 12px 0;
+    border: 1px solid rgba(200,169,81,0.5);
+    border-left: none;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.5);
   }
 
   /* ─── RTL Arabic Mode ─── */
@@ -347,10 +373,6 @@ tailwind.config = {
   html[lang="ar"] .timeline-item { padding-left: 0; padding-right: 32px; }
   html[lang="ar"] .timeline-item::before { left: auto; right: 7px; }
   html[lang="ar"] .timeline-dot { left: auto; right: 0; }
-  html[lang="ar"] .lang-btn {
-    right: auto;
-    left: max(16px, env(safe-area-inset-left, 16px));
-  }
   /* ─── Services Section ─── */
   .services-section { position: relative; padding: 48px 24px; max-width: 512px; margin: 0 auto; }
 </style>
@@ -585,16 +607,18 @@ tailwind.config = {
   });
   document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
-  // ─── Pin lang button to visual viewport (survives pinch-zoom) ───
+  // ─── Pin side tab to visual viewport (survives pinch-zoom) ───
   const wrapper = document.getElementById('langWrapper');
+
   function pinBtn() {
     if (!window.visualViewport) return;
     const vv = window.visualViewport;
-    wrapper.style.transform =
-      `translate(${vv.offsetLeft}px, ${vv.offsetTop}px)`;
-    wrapper.style.width  = vv.width  + 'px';
-    wrapper.style.height = vv.height + 'px';
+    const scale = 1 / vv.scale;
+    wrapper.style.transform = `translate(${vv.offsetLeft}px, ${vv.offsetTop}px) scale(${scale})`;
+    wrapper.style.transformOrigin = 'top right';
+    wrapper.style.height = (vv.height * vv.scale) + 'px';
   }
+
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', pinBtn);
     window.visualViewport.addEventListener('scroll', pinBtn);
